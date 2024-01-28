@@ -11,12 +11,6 @@ services:
       TZ: ${TZ}
     ports:
       - "${LOCAL_DB_PORT}:3306" # 호스트 포트:컨테이너 포트
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pddudu-local-root" ] # 컨테이너의 상태를 확인하는 데 사용되는 명령
-      interval: 10s     # 상태 확인 명령을 실행하는 빈도
-      timeout: 5s       # 상태 확인 명령을 완료하는 데 이 시간보다 오래 걸리면 실패로 간주
-      retries: 12       # 상태 확인 명령이 12번 연속 실패하면 Docker는 컨테이너를 비정상으로 표시
-    restart: on-failure # 오류(0이 아닌 종료 상태)로 인해 컨테이너가 종료되면 Docker가 자동으로 컨테이너를 다시 시작
 
   wtwt-test-db:
     image: mysql:latest
@@ -28,9 +22,3 @@ services:
       TZ: ${TZ}
     ports:
       - "${TEST_DB_PORT}:3306"
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pddudu-local-root" ]
-      interval: 10s
-      timeout: 5s
-      retries: 12
-    restart: on-failure
