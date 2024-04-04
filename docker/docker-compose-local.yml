@@ -11,3 +11,12 @@ services:
       TZ: ${TZ}
     ports:
       - "${LOCAL_DB_PORT}:3306" # 호스트 포트:컨테이너 포트
+
+  wtwt-redis:
+    image: redis:latest
+    ports:
+      - ${REDIS_PORT}:6379
+    volumes:
+      - ./redis/data:/data/local
+      - ./redis/conf/redis.conf:/usr/local/conf/redis.conf
+    restart: always
