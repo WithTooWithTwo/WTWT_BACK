@@ -4,21 +4,10 @@ services:
   wtwt-local-db:
     image: mysql:latest # 도커 이미지
     environment:
-      MYSQL_DATABASE: ${LOCAL_DATABASE}
+      MYSQL_DATABASE: ${DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       TZ: ${TZ}
     ports:
       - "${LOCAL_DB_PORT}:3306" # 호스트 포트:컨테이너 포트
-
-  wtwt-test-db:
-    image: mysql:latest
-    environment:
-      MYSQL_DATABASE: ${TEST_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      TZ: ${TZ}
-    ports:
-      - "${TEST_DB_PORT}:3306"
