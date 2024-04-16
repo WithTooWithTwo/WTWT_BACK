@@ -32,6 +32,7 @@ jobs:
         run: |
           touch ./src/main/resources/application.yml
           echo "$APPLICATION" >> ./src/main/resources/application.yml
+          mkdir -p ./src/test/resources/
           touch ./src/test/resources/application.yml
           echo "$TEST_APPLICATION" >> ./src/test/resources/application.yml
 
