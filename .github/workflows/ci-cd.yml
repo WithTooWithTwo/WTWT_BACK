@@ -1,0 +1,92 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - prod
+  pull_request:
+    branches:
+      - main
+      - dev
+      - prod
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      APPLICATION: ${{ github.ref == 'refs/heads/prod' &&  secrets.PROD_APPLICATION || secrets.DEV_APPLICATION }}
+      ENVIRONMENT: ${{ github.ref == 'refs/heads/prod' && 'prod' || github.ref == 'refs/heads/dev' && 'dev' || 'local' }}
+      TEST_APPLICATION: ${{ secrets.TEST_APPLICATION }}
+      AWS_REGION: ap-northeast-2
+      ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+
+    steps:
+      - name: Repository Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'corretto'
+
+      - name: Set up Redis For Test
+        uses: supercharge/redis-github-action@1.7.0
+        with:
+          redis-version: ${{ matrix.redis-version }}
+          redis-port: ${{ secrets.TEST_REDIS_PORT }}
+
+      - name: Set up MySQL For Test
+        uses: samin/mysql-action@v1.3
+        with:
+          mysql user: ${{ secrets.TEST_DB_USER }}
+          mysql password: ${{ secrets.TEST_DB_PASSWORD }}
+          mysql database: ${{ secrets.TEST_DB }}
+          host port: ${{ secrets.TEST_DB_PORT }}
+
+      - name: create applications.yml
+        shell: bash
+        run: |
+          touch ./src/main/resources/application.yml
+          echo "$APPLICATION" >> ./src/main/resources/application.yml
+          mkdir -p ./src/test/resources/
+          touch ./src/test/resources/application.yml
+          echo "$TEST_APPLICATION" >> ./src/test/resources/application.yml
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew clean build
+
+      # CD
+      - name: Configure AWS credentials
+        if: github.event_name == 'push' && env.ENVIRONMENT != 'local'
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        if: github.event_name == 'push' && env.ENVIRONMENT != 'local'
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Push Docker Image to ECR
+        if: github.event_name == 'push' && env.ENVIRONMENT != 'local'
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build --build-arg ENVIRONMENT=$ENVIRONMENT -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"

@@ -205,4 +205,4 @@ gradle-app.setting
 # Custom ignores
 .idea/
 .env
-/src/main/resources/*.yml
+/src/**/resources/*.yml
