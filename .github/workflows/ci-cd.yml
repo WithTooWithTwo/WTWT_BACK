@@ -23,7 +23,7 @@ jobs:
     env:
       APPLICATION: ${{ github.ref == 'refs/heads/prod' &&  secrets.PROD_APPLICATION || secrets.DEV_APPLICATION }}
       ENVIRONMENT: ${{ github.ref == 'refs/heads/prod' && 'prod' || github.ref == 'refs/heads/dev' && 'dev' || 'local' }}
-      TEST_APPLICATION: ${{ secrets.TEST_APPLICATION }}
+      CODE_DEPLOY_APP_NAME: ${{ github.ref == 'refs/heads/main' && secrets.CODE_DEPLOY_DEV_APP_NAME || secrets.CODE_DEPLOY_PROD_APP_NAME }}
       AWS_REGION: ap-northeast-2
       ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
 
@@ -37,28 +37,11 @@ jobs:
           java-version: 17
           distribution: 'corretto'
 
-      - name: Set up Redis For Test
-        uses: supercharge/redis-github-action@1.7.0
-        with:
-          redis-version: ${{ matrix.redis-version }}
-          redis-port: ${{ secrets.TEST_REDIS_PORT }}
-
-      - name: Set up MySQL For Test
-        uses: samin/mysql-action@v1.3
-        with:
-          mysql user: ${{ secrets.TEST_DB_USER }}
-          mysql password: ${{ secrets.TEST_DB_PASSWORD }}
-          mysql database: ${{ secrets.TEST_DB }}
-          host port: ${{ secrets.TEST_DB_PORT }}
-
       - name: create applications.yml
         shell: bash
         run: |
           touch ./src/main/resources/application.yml
           echo "$APPLICATION" >> ./src/main/resources/application.yml
-          mkdir -p ./src/test/resources/
-          touch ./src/test/resources/application.yml
-          echo "$TEST_APPLICATION" >> ./src/test/resources/application.yml
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
