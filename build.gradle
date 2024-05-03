@@ -58,13 +58,9 @@ test {
     useJUnitPlatform()
 }
 
-tasks.withType(Checkstyle) {
+tasks.withType(Checkstyle).configureEach {
     reports {
         xml.required = true
         html.required = true
     }
-}
-
-checkstyle {
-    maxWarnings = 0
 }
