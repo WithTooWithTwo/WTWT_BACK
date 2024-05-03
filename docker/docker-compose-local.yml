@@ -1,0 +1,14 @@
+version: '3.8' # Compose 파일 형식의 버전
+
+services:
+  wtwt-mysql:
+    container_name: wtwt-mysql-local
+    image: mysql:8
+    environment:
+      MYSQL_DATABASE: ${DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: ${TZ}
+    ports:
+      - "${LOCAL_DB_PORT}:3306" # 호스트 포트:컨테이너 포트
