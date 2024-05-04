@@ -6,8 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wtwt.common.base.BaseTimeEntity;
@@ -42,9 +42,15 @@ public class User extends BaseTimeEntity {
     @Column(name = "gender")
     private Gender gender;
 
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted;
+    @Builder
+    public User(Long id, String nickname, String email, String password, String profileImageUrl,
+        String statusMassage, Gender gender) {
+        this.id = id;
+        this.nickname = nickname;
+        this.email = email;
+        this.password = password;
+        this.profileImageUrl = profileImageUrl;
+        this.statusMassage = statusMassage;
+        this.gender = gender;
+    }
 }
