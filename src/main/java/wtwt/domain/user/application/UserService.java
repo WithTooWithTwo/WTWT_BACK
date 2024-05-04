@@ -34,7 +34,7 @@ public class UserService {
         return user.getId();
     }
 
-    private boolean isDuplicatedEmail(String email) {
+    public boolean isDuplicatedEmail(String email) {
         return userRepository.existsByEmail(email);
     }
 }
