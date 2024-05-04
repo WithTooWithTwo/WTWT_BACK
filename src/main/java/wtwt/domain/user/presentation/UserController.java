@@ -39,8 +39,12 @@ public class UserController implements UserSwagger {
 
     @PostMapping("/email/check")
     public ResponseEntity<CheckDuplicateApiRes> checkEmailDuplicate(
-        CheckEmailDuplicateApiReq request) {
-        return null;
+        @RequestBody @Valid CheckEmailDuplicateApiReq request) {
+        CheckDuplicateApiRes response = CheckDuplicateApiRes.builder()
+            .isDuplicated(userService.isDuplicatedEmail(request.email()))
+            .build();
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
