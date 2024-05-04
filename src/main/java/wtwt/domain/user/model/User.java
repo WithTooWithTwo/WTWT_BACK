@@ -1,4 +1,4 @@
-package wtwt.domain.user.domain;
+package wtwt.domain.user.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
