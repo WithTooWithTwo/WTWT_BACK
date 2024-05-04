@@ -4,7 +4,7 @@ REPOSITORY=/home/ubuntu/app
 echo "👀   [$REPOSITORY] 경로로 이동합니다."
 cd $REPOSITORY
 
-APP_NAME=wtwt-dev
+APP_NAME=wtwt
 JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep '.jar' | tail -n 1)
 JAR_PATH=$REPOSITORY/build/libs/$JAR_NAME
 
