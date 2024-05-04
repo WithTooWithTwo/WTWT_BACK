@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import org.springframework.web.multipart.MultipartFile;
 import wtwt.domain.user.model.enums.Gender;
 
-public record UpdateUserReq(
+public record UpdateUserApiReq(
     @NotBlank
     @Size(max = 10)
     String nickname,

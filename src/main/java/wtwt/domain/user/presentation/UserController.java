@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import wtwt.common.doc.swagger.UserSwagger;
-import wtwt.domain.user.presentation.dto.request.CheckEmailDuplicateReq;
-import wtwt.domain.user.presentation.dto.request.SignUpReq;
-import wtwt.domain.user.presentation.dto.request.UpdateUserReq;
-import wtwt.domain.user.presentation.dto.response.CheckDuplicateRes;
+import wtwt.domain.user.presentation.dto.request.CheckEmailDuplicateApiReq;
+import wtwt.domain.user.presentation.dto.request.SignUpApiReq;
+import wtwt.domain.user.presentation.dto.request.UpdateUserApiReq;
+import wtwt.domain.user.presentation.dto.response.CheckDuplicateApiRes;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -19,17 +19,18 @@ import wtwt.domain.user.presentation.dto.response.CheckDuplicateRes;
 public class UserController implements UserSwagger {
 
     @PostMapping
-    public ResponseEntity<Void> signup(SignUpReq request) {
+    public ResponseEntity<Void> signup(SignUpApiReq request) {
         return null;
     }
 
     @PostMapping("/email/check")
-    public ResponseEntity<CheckDuplicateRes> checkEmailDuplicate(CheckEmailDuplicateReq request) {
+    public ResponseEntity<CheckDuplicateApiRes> checkEmailDuplicate(
+        CheckEmailDuplicateApiReq request) {
         return null;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUser(@PathVariable Long id, UpdateUserReq request) {
+    public ResponseEntity<Void> updateUser(@PathVariable Long id, UpdateUserApiReq request) {
         return null;
     }
 }
