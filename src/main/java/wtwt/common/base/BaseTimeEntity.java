@@ -1,4 +1,4 @@
-package wtwt.common;
+package wtwt.common.base;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;

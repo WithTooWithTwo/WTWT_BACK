@@ -1,4 +1,4 @@
-package wtwt.config;
+package wtwt.core.config;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
