@@ -204,5 +204,5 @@ gradle-app.setting
 
 # Custom ignores
 .idea/
-.env
+docker/.env
 /src/main/resources/*.yml
