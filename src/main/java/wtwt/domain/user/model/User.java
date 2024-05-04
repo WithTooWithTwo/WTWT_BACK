@@ -10,14 +10,13 @@ import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.SQLRestriction;
 import wtwt.common.base.BaseTimeEntity;
+import wtwt.domain.user.model.enums.Gender;
 
 @Entity
 @Table(name = "users")
-@SQLRestriction("is_deleted = 0")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseTimeEntity {
 
     @Id
@@ -25,14 +24,23 @@ public class User extends BaseTimeEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "nickname", length = 20, unique = true)
+    private String nickname;
+
+    @Column(name = "email", length = 100, unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "nickname", length = 20, nullable = false)
-    private String nickname;
+    @Column(name = "profile_image_url", length = 1024)
+    private String profileImageUrl;
+
+    @Column(name = "status_message")
+    private String statusMassage;
+
+    @Column(name = "gender")
+    private Gender gender;
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
