@@ -30,7 +30,7 @@ public class AuthController implements AuthSwagger {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<LoginApiRes> refresh(
+    public ResponseEntity<LoginApiRes> reissue(
         @RequestBody @Valid ReissueTokenApiReq request
     ) {
         LoginApiRes response = LoginApiRes.from(authService.reissue(request.toReissueTokenReq()));
