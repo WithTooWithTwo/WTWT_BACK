@@ -12,6 +12,7 @@ import wtwt.domain.auth.application.dto.requset.LoginReq;
 import wtwt.domain.auth.application.dto.requset.ReissueTokenReq;
 import wtwt.domain.auth.application.dto.response.AccessTokenAndRefreshToken;
 import wtwt.domain.auth.application.dto.response.TokensAndUserSummaryRes;
+import wtwt.domain.auth.application.dto.response.UserSummary;
 import wtwt.domain.auth.application.jwt.JwtManager;
 import wtwt.domain.auth.infrastructure.AuthProviderRepository;
 import wtwt.domain.auth.model.AuthProvider;
@@ -87,5 +88,12 @@ public class AuthService {
         }
 
         return authProviderRepository.getByUserAndProviderType(user, providerType);
+    }
+
+    public UserSummary loadUser(Long loginId) {
+        User user = userRepository.findById(loginId)
+            .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다."));
+
+        return UserSummary.from(user);
     }
 }

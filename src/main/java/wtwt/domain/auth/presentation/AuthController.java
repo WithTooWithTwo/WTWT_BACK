@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import wtwt.common.annotation.Login;
 import wtwt.common.doc.swagger.AuthSwagger;
 import wtwt.domain.auth.application.AuthService;
 import wtwt.domain.auth.presentation.dto.request.LoginApiReq;
 import wtwt.domain.auth.presentation.dto.request.ReissueTokenApiReq;
 import wtwt.domain.auth.presentation.dto.response.LoginApiRes;
+import wtwt.domain.auth.presentation.dto.response.UserSummaryApiRes;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -34,6 +36,14 @@ public class AuthController implements AuthSwagger {
         @RequestBody @Valid ReissueTokenApiReq request
     ) {
         LoginApiRes response = LoginApiRes.from(authService.reissue(request.toReissueTokenReq()));
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
+    @PostMapping("/me")
+    public ResponseEntity<UserSummaryApiRes> validateToken(@Login Long loginId) {
+        UserSummaryApiRes response = UserSummaryApiRes.from(authService.loadUser(loginId));
 
         return ResponseEntity.ok(response);
     }
