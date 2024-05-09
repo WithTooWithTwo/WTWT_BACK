@@ -50,6 +50,13 @@ public class JwtManager {
         return parseClaims(token).getExpiration().getTime();
     }
 
+    public void validateToken(String refreshToken, Instant now) {
+        Long expiredAt = getExpiredAt(refreshToken);
+        if (now.toEpochMilli() > expiredAt) {
+            throw new TokenValidationFailException("만료된 리프레시 토큰입니다.");
+        }
+    }
+
     private String generateToken(Long userId, List<Authority> roles, long expiredAfter) {
         Instant now = Instant.now();
         Instant expiredAt = now.plusMillis(expiredAfter);
