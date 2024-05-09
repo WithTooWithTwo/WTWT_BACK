@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import wtwt.domain.auth.presentation.dto.request.LoginApiReq;
+import wtwt.domain.auth.presentation.dto.request.ReissueTokenApiReq;
 import wtwt.domain.auth.presentation.dto.response.LoginApiRes;
 
 @Tag(name = "Auth", description = "인증/인가 관련 API")
@@ -21,4 +22,11 @@ public interface AuthSwagger {
             content = @Content(schema = @Schema(implementation = LoginApiRes.class)))
     })
     ResponseEntity<LoginApiRes> login(LoginApiReq request);
+
+    @Operation(summary = "Access / Refresh Token 재발급", description = "Refresh Token을 통해 토큰 재발급")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "토큰 재발급 성공",
+            useReturnTypeSchema = true)
+    })
+    ResponseEntity<LoginApiRes> reissue(ReissueTokenApiReq request);
 }
