@@ -1,6 +1,7 @@
 package wtwt.common.doc.swagger;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import wtwt.domain.auth.presentation.dto.request.LoginApiReq;
 import wtwt.domain.auth.presentation.dto.request.ReissueTokenApiReq;
 import wtwt.domain.auth.presentation.dto.response.LoginApiRes;
+import wtwt.domain.auth.presentation.dto.response.UserSummaryApiRes;
 
 @Tag(name = "Auth", description = "인증/인가 관련 API")
 public interface AuthSwagger {
@@ -29,4 +31,11 @@ public interface AuthSwagger {
             useReturnTypeSchema = true)
     })
     ResponseEntity<LoginApiRes> reissue(ReissueTokenApiReq request);
+
+    @Operation(summary = "Access Token 검증", description = "Access Token을 통해 현재 로그인 된 사용자의 정보 요청")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "토큰 검증 성공",
+            useReturnTypeSchema = true)
+    })
+    ResponseEntity<UserSummaryApiRes> validateToken(@Parameter(hidden = true) Long loginId);
 }
