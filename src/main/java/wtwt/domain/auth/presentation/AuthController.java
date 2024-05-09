@@ -23,6 +23,8 @@ public class AuthController implements AuthSwagger {
     public ResponseEntity<LoginApiRes> login(
         @RequestBody @Valid LoginApiReq request
     ) {
-        return null;
+        LoginApiRes response = LoginApiRes.from(authService.login(request.toLoginReq()));
+        
+        return ResponseEntity.ok(response);
     }
 }
