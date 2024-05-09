@@ -9,12 +9,9 @@ public record TokensAndUserSummaryRes(
     UserSummary user
 ) {
 
-    public static TokensAndUserSummaryRes of(String accessToken, String refreshToken, User user) {
+    public static TokensAndUserSummaryRes of(AccessTokenAndRefreshToken tokens, User user) {
         return TokensAndUserSummaryRes.builder()
-            .tokens(AccessTokenAndRefreshToken.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build())
+            .tokens(tokens)
             .user(UserSummary.builder()
                 .id(user.getId())
                 .nickname(user.getNickname())

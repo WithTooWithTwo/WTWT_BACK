@@ -10,5 +10,3 @@ create TABLE IF NOT EXISTS auth_provider
     updated_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
-
-CREATE INDEX idx_auth_refresh ON auth_provider (refresh_token);

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import wtwt.common.doc.swagger.AuthSwagger;
 import wtwt.domain.auth.application.AuthService;
 import wtwt.domain.auth.presentation.dto.request.LoginApiReq;
+import wtwt.domain.auth.presentation.dto.request.ReissueTokenApiReq;
 import wtwt.domain.auth.presentation.dto.response.LoginApiRes;
 
 @RestController
@@ -23,8 +24,17 @@ public class AuthController implements AuthSwagger {
     public ResponseEntity<LoginApiRes> login(
         @RequestBody @Valid LoginApiReq request
     ) {
-        LoginApiRes response = LoginApiRes.from(authService.login(request.toLoginReq()));
-        
+        LoginApiRes response = LoginApiRes.from(authService.basicLogin(request.toLoginReq()));
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<LoginApiRes> reissue(
+        @RequestBody @Valid ReissueTokenApiReq request
+    ) {
+        LoginApiRes response = LoginApiRes.from(authService.reissue(request.toReissueTokenReq()));
+
         return ResponseEntity.ok(response);
     }
 }
