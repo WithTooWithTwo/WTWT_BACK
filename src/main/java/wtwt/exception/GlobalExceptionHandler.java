@@ -4,6 +4,7 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import javax.security.sasl.AuthenticationException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import wtwt.exception.custom.TokenValidationFailException;
 import wtwt.exception.dto.ErrorResponse;
 
 @RestControllerAdvice
@@ -61,6 +63,24 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.BAD_REQUEST, e.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(errorResponse);
+    }
+
+    @ExceptionHandler(TokenValidationFailException.class)
+    public ResponseEntity<ErrorResponse> handleTokenValidationFailException(
+        TokenValidationFailException e) {
+        ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.UNAUTHORIZED, e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .body(errorResponse);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(
+        AuthenticationException e) {
+        ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.UNAUTHORIZED, e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
             .body(errorResponse);
     }
 
