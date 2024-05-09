@@ -4,6 +4,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 import java.util.Arrays;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,13 +14,21 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import wtwt.domain.auth.filter.AuthExceptionHandlerFilter;
+import wtwt.domain.auth.filter.JwtValidationFilter;
 
 @Configuration
 @EnableWebSecurity
+@ConfigurationPropertiesScan("wtwt.core.properties")
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtValidationFilter jwtValidationFilter;
+    private final AuthExceptionHandlerFilter authExceptionHandlerFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -35,7 +45,9 @@ public class SecurityConfig {
             .httpBasic(AbstractHttpConfigurer::disable)
             .rememberMe(AbstractHttpConfigurer::disable)
             .logout(AbstractHttpConfigurer::disable)
-            .sessionManagement(session -> session.sessionCreationPolicy(STATELESS));
+            .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+            .addFilterBefore(jwtValidationFilter, BasicAuthenticationFilter.class)
+            .addFilterBefore(authExceptionHandlerFilter, JwtValidationFilter.class);
 
         return httpSecurity.build();
     }
