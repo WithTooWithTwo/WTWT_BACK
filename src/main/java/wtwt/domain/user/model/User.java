@@ -1,5 +1,7 @@
 package wtwt.domain.user.model;
 
+import static java.util.Objects.isNull;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,7 +14,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import wtwt.common.base.BaseTimeEntity;
+import wtwt.domain.user.model.enums.Authority;
 import wtwt.domain.user.model.enums.Gender;
 
 @Entity
@@ -45,9 +49,13 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @Column(name = "authority", length = 15, columnDefinition = "VARCHAR")
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
     @Builder
     public User(Long id, String nickname, String email, String password, String profileImageUrl,
-        String statusMassage, Gender gender) {
+        String statusMassage, Gender gender, Authority authority) {
         this.id = id;
         this.nickname = nickname;
         this.email = email;
@@ -55,5 +63,18 @@ public class User extends BaseTimeEntity {
         this.profileImageUrl = profileImageUrl;
         this.statusMassage = statusMassage;
         this.gender = gender;
+        this.authority = determineAuthority(authority, nickname);
+    }
+
+    public boolean checkPassword(String rawPassword, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(rawPassword, password);
+    }
+
+    public Authority determineAuthority(Authority authority, String nickname) {
+        if (!isNull(authority)) {
+            return authority;
+        }
+
+        return isNull(nickname) ? Authority.RESTRICTED : Authority.NORMAL;
     }
 }
