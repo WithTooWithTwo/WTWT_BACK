@@ -1,5 +1,6 @@
 package wtwt.domain.auth.infrastructure;
 
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import wtwt.domain.auth.model.AuthProvider;
@@ -12,5 +13,7 @@ public interface AuthProviderRepository extends JpaRepository<AuthProvider, Long
     boolean existsByUserAndProviderType(User user, ProviderType providerType);
 
     AuthProvider getByUserAndProviderType(User user, ProviderType providerType);
+
+    Optional<AuthProvider> findByUserAndRefreshToken(User user, String refreshToken);
 
 }
