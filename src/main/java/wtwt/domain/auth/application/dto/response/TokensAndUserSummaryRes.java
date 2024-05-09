@@ -12,11 +12,7 @@ public record TokensAndUserSummaryRes(
     public static TokensAndUserSummaryRes of(AccessTokenAndRefreshToken tokens, User user) {
         return TokensAndUserSummaryRes.builder()
             .tokens(tokens)
-            .user(UserSummary.builder()
-                .id(user.getId())
-                .nickname(user.getNickname())
-                .profileImageUrl(user.getProfileImageUrl())
-                .build())
+            .user(UserSummary.from(user))
             .build();
     }
 
