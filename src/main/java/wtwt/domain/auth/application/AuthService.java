@@ -2,6 +2,7 @@ package wtwt.domain.auth.application;
 
 import static wtwt.domain.auth.model.enums.ProviderType.BASIC;
 
+import jakarta.persistence.EntityNotFoundException;
 import java.time.Instant;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -92,7 +93,7 @@ public class AuthService {
 
     public UserSummary loadUser(Long loginId) {
         User user = userRepository.findById(loginId)
-            .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다."));
+            .orElseThrow(() -> new EntityNotFoundException("해당 사용자가 존재하지 않습니다."));
 
         return UserSummary.from(user);
     }
