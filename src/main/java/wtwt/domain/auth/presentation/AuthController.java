@@ -40,7 +40,6 @@ public class AuthController implements AuthSwagger {
         return ResponseEntity.ok(response);
     }
 
-    @Override
     @PostMapping("/me")
     public ResponseEntity<UserSummaryApiRes> validateToken(@Login Long loginId) {
         UserSummaryApiRes response = UserSummaryApiRes.from(authService.loadUser(loginId));
