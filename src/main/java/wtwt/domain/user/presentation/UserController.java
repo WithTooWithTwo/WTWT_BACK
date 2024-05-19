@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import wtwt.common.doc.swagger.UserSwagger;
 import wtwt.domain.user.application.UserService;
 import wtwt.domain.user.presentation.dto.request.CheckEmailDuplicateApiReq;
+import wtwt.domain.user.presentation.dto.request.CheckNicknameDuplicateApiReq;
 import wtwt.domain.user.presentation.dto.request.SignUpApiReq;
 import wtwt.domain.user.presentation.dto.request.UpdateUserApiReq;
 import wtwt.domain.user.presentation.dto.response.CheckDuplicateApiRes;
@@ -42,6 +43,16 @@ public class UserController implements UserSwagger {
         @RequestBody @Valid CheckEmailDuplicateApiReq request) {
         CheckDuplicateApiRes response = CheckDuplicateApiRes.builder()
             .isDuplicated(userService.isDuplicatedEmail(request.email()))
+            .build();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/nickname/check")
+    public ResponseEntity<CheckDuplicateApiRes> checkNicknameDuplicate(
+        @RequestBody @Valid CheckNicknameDuplicateApiReq request) {
+        CheckDuplicateApiRes response = CheckDuplicateApiRes.builder()
+            .isDuplicated(userService.isDuplicatedNickname(request.nickname()))
             .build();
 
         return ResponseEntity.ok(response);

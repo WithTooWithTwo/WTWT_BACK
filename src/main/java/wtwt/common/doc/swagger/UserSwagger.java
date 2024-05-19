@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import wtwt.domain.user.presentation.dto.request.CheckEmailDuplicateApiReq;
+import wtwt.domain.user.presentation.dto.request.CheckNicknameDuplicateApiReq;
 import wtwt.domain.user.presentation.dto.request.SignUpApiReq;
 import wtwt.domain.user.presentation.dto.request.UpdateUserApiReq;
 import wtwt.domain.user.presentation.dto.response.CheckDuplicateApiRes;
@@ -31,6 +32,14 @@ public interface UserSwagger {
             content = @Content(schema = @Schema(implementation = CheckDuplicateApiRes.class)))
     })
     ResponseEntity<CheckDuplicateApiRes> checkEmailDuplicate(CheckEmailDuplicateApiReq request);
+
+    @Operation(summary = "닉네임 중복 확인", description = "닉네임 중복을 확인할 때 사용하는 API")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "중복 확인 성공",
+            content = @Content(schema = @Schema(implementation = CheckDuplicateApiRes.class)))
+    })
+    ResponseEntity<CheckDuplicateApiRes> checkNicknameDuplicate(
+        CheckNicknameDuplicateApiReq request);
 
     @Operation(summary = "회원 정보 수정", description = "회원 정보를 수정할 때 사용하는 API")
     @ApiResponses(value = {

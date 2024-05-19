@@ -37,4 +37,9 @@ public class UserService {
     public boolean isDuplicatedEmail(String email) {
         return userRepository.existsByEmail(email);
     }
+
+    public boolean isDuplicatedNickname(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
 }
