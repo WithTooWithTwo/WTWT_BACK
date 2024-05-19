@@ -48,6 +48,9 @@ dependencies {
     // Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
 
+    // S3
+    implementation 'software.amazon.awssdk:s3:2.25.54'
+
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
