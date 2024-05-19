@@ -1,11 +1,13 @@
 package wtwt.domain.user.application;
 
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wtwt.domain.user.application.dto.request.SignUpReq;
+import wtwt.domain.user.application.dto.request.UpdateUserReq;
 import wtwt.domain.user.infrastructure.UserRepository;
 import wtwt.domain.user.model.User;
 
@@ -42,4 +44,16 @@ public class UserService {
         return userRepository.existsByNickname(nickname);
     }
 
+    @Transactional
+    public void updateUser(Long id, UpdateUserReq request) {
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("해당 ID의 사용자가 존재하지 않습니다."));
+
+        user.setNickname(request.nickname());
+        user.setProfileImage(request.profileImageUrl());
+        user.setStatusMessage(request.statusMessage());
+        user.setBirthDate(request.birthDate());
+        user.setGender(request.gender());
+
+    }
 }

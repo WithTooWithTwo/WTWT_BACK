@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -49,13 +50,16 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @Column(name = "birth_date", columnDefinition = "DATE")
+    private LocalDate birthDate;
+
     @Column(name = "authority", length = 15, columnDefinition = "VARCHAR")
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
     @Builder
     public User(Long id, String nickname, String email, String password, String profileImageUrl,
-        String statusMassage, Gender gender, Authority authority) {
+        String statusMassage, Gender gender, LocalDate birthDate, Authority authority) {
         this.id = id;
         this.nickname = nickname;
         this.email = email;
@@ -63,6 +67,7 @@ public class User extends BaseTimeEntity {
         this.profileImageUrl = profileImageUrl;
         this.statusMassage = statusMassage;
         this.gender = gender;
+        this.birthDate = birthDate;
         this.authority = determineAuthority(authority, nickname);
     }
 
@@ -76,5 +81,26 @@ public class User extends BaseTimeEntity {
         }
 
         return isNull(nickname) ? Authority.RESTRICTED : Authority.NORMAL;
+    }
+
+    public void setProfileImage(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+        this.authority = Authority.NORMAL;
+    }
+
+    public void setStatusMessage(String statusMessage) {
+        this.statusMassage = statusMessage;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }

@@ -59,7 +59,9 @@ public class UserController implements UserSwagger {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUser(@PathVariable Long id, UpdateUserApiReq request) {
+    public ResponseEntity<Void> updateUser(@PathVariable Long id,
+        @RequestBody @Valid UpdateUserApiReq request) {
+        userService.updateUser(id, request.toUpdateUserReq());
         return null;
     }
 }
