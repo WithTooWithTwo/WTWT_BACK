@@ -27,7 +27,6 @@ public class AuthController implements AuthSwagger {
         @RequestBody @Valid LoginApiReq request
     ) {
         LoginApiRes response = LoginApiRes.from(authService.basicLogin(request.toLoginReq()));
-
         return ResponseEntity.ok(response);
     }
 
@@ -36,14 +35,12 @@ public class AuthController implements AuthSwagger {
         @RequestBody @Valid ReissueTokenApiReq request
     ) {
         LoginApiRes response = LoginApiRes.from(authService.reissue(request.toReissueTokenReq()));
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/me")
     public ResponseEntity<UserSummaryApiRes> validateToken(@Login Long loginId) {
         UserSummaryApiRes response = UserSummaryApiRes.from(authService.loadUser(loginId));
-
         return ResponseEntity.ok(response);
     }
 }

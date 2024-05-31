@@ -9,9 +9,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import wtwt.common.dto.response.ScrollResponse;
+import wtwt.domain.auth.presentation.dto.response.UserSummaryApiRes;
 import wtwt.domain.user.presentation.dto.request.CheckEmailDuplicateApiReq;
 import wtwt.domain.user.presentation.dto.request.CheckNicknameDuplicateApiReq;
 import wtwt.domain.user.presentation.dto.request.SignUpApiReq;
+import wtwt.domain.user.presentation.dto.request.UpdateBirthdateApiReq;
+import wtwt.domain.user.presentation.dto.request.UpdateGenderApiReq;
+import wtwt.domain.user.presentation.dto.request.UpdateProfileApiReq;
 import wtwt.domain.user.presentation.dto.request.UpdateUserApiReq;
 import wtwt.domain.user.presentation.dto.response.CheckDuplicateApiRes;
 
@@ -48,4 +53,36 @@ public interface UserSwagger {
     })
     @Parameter(name = "id", description = "수정할 회원 식별자", example = "1", in = ParameterIn.PATH)
     ResponseEntity<Void> updateUser(Long id, UpdateUserApiReq request);
+
+    @Operation(summary = "회원 검색", description = "닉네임으로 회원을 검색할 때 사용하는 API")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "회원 검색 성공",
+            content = @Content(schema = @Schema(contentSchema = ScrollResponse.class)))
+    })
+    @Parameter(name = "keyword", description = "검색어", example = "uijin", in = ParameterIn.QUERY)
+    ResponseEntity<ScrollResponse<UserSummaryApiRes>> search(String keyword);
+
+    @Operation(summary = "프로필 수정", description = "프로필을 수정할 때 사용하는 API")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "프로필 수정 성공",
+            content = @Content(schema = @Schema()))
+    })
+    @Parameter(name = "id", description = "수정할 회원 식별자", example = "1", in = ParameterIn.PATH)
+    ResponseEntity<Void> updateProfile(Long id, UpdateProfileApiReq request);
+
+    @Operation(summary = "생일 수정", description = "생일을 수정할 때 사용하는 API")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "생일 수정 성공",
+            content = @Content(schema = @Schema()))
+    })
+    @Parameter(name = "id", description = "생일을 수정할 회원 식별자", example = "1", in = ParameterIn.PATH)
+    public ResponseEntity<Void> updateBirthdate(Long id, UpdateBirthdateApiReq request);
+
+    @Operation(summary = "성별 수정", description = "성별을 수정할 때 사용하는 API")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "성별 수정 성공",
+            content = @Content(schema = @Schema()))
+    })
+    @Parameter(name = "id", description = "성별을 수정할 회원 식별자", example = "1", in = ParameterIn.PATH)
+    ResponseEntity<Void> updateGender(Long id, UpdateGenderApiReq request);
 }
