@@ -50,6 +50,10 @@ public class JwtManager {
         return parseClaims(token).getExpiration().getTime();
     }
 
+    public Authority getRoles(String token) {
+        return Authority.valueOf(parseClaims(token).get(ROLES_CLAIM, String.class));
+    }
+
     public void validateToken(String refreshToken, Instant now) {
         Long expiredAt = getExpiredAt(refreshToken);
         if (now.toEpochMilli() > expiredAt) {
