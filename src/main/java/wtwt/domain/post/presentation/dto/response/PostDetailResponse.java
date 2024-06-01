@@ -3,7 +3,7 @@ package wtwt.domain.post.presentation.dto.response;
 import java.time.LocalDate;
 import java.util.List;
 import wtwt.domain.auth.application.dto.response.UserSummary;
-import wtwt.domain.category.dto.CategoryDTO;
+import wtwt.domain.category.dto.CategoryDetail;
 import wtwt.domain.post.model.enums.PostStatus;
 import wtwt.domain.trip.dto.PreferenceDTO;
 
@@ -21,7 +21,7 @@ public record PostDetailResponse(
     PreferenceDTO preference,
     String content,
     List<String> images,
-    CategoryDTO category,
+    CategoryDetail category,
     PostStatus status,
     Boolean isLiked
 ) {

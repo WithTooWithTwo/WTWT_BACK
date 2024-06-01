@@ -14,12 +14,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import wtwt.common.base.BaseTimeEntity;
 import wtwt.domain.category.model.enums.CategoryType;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Category {
+public class Category extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +36,7 @@ public class Category {
 
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "level", nullable = false, length = 10, columnDefinition = "VARCHAR(10)")
+    @Column(name = "level", nullable = false, length = 20, columnDefinition = "VARCHAR(20)")
     private CategoryType level;
 
     @Builder
@@ -43,28 +44,5 @@ public class Category {
         this.name = name;
         this.parent = parent;
         this.level = level;
-    }
-
-    public static Category createMain(String name) {
-        return Category.builder()
-            .name(name)
-            .level(CategoryType.MAIN)
-            .build();
-    }
-
-    public static Category createSub(String name, Category parent) {
-        return Category.builder()
-            .name(name)
-            .parent(parent)
-            .level(CategoryType.SUB)
-            .build();
-    }
-
-    public static Category createSubSub(String name, Category parent) {
-        return Category.builder()
-            .name(name)
-            .parent(parent)
-            .level(CategoryType.SUB_SUB)
-            .build();
     }
 }
