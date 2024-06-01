@@ -8,9 +8,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import wtwt.common.dto.response.ScrollResponse;
-import wtwt.domain.auth.presentation.dto.response.UserSummaryApiRes;
+import wtwt.domain.auth.application.dto.response.UserSummary;
+import wtwt.domain.user.presentation.UserSearch;
 import wtwt.domain.user.presentation.dto.request.CheckEmailDuplicateApiReq;
 import wtwt.domain.user.presentation.dto.request.CheckNicknameDuplicateApiReq;
 import wtwt.domain.user.presentation.dto.request.SignUpApiReq;
@@ -59,8 +61,7 @@ public interface UserSwagger {
         @ApiResponse(responseCode = "200", description = "회원 검색 성공",
             content = @Content(schema = @Schema(contentSchema = ScrollResponse.class)))
     })
-    @Parameter(name = "keyword", description = "검색어", example = "uijin", in = ParameterIn.QUERY)
-    ResponseEntity<ScrollResponse<UserSummaryApiRes>> search(String keyword);
+    ResponseEntity<ScrollResponse<UserSummary>> search(@ParameterObject UserSearch request);
 
     @Operation(summary = "프로필 수정", description = "프로필을 수정할 때 사용하는 API")
     @ApiResponses(value = {

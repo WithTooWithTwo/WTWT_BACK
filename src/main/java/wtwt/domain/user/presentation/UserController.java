@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import wtwt.common.doc.swagger.UserSwagger;
 import wtwt.common.dto.response.ScrollResponse;
-import wtwt.domain.auth.presentation.dto.response.UserSummaryApiRes;
+import wtwt.domain.auth.application.dto.response.UserSummary;
 import wtwt.domain.user.application.UserService;
 import wtwt.domain.user.presentation.dto.request.CheckEmailDuplicateApiReq;
 import wtwt.domain.user.presentation.dto.request.CheckNicknameDuplicateApiReq;
@@ -76,9 +75,9 @@ public class UserController implements UserSwagger {
     }
 
     @GetMapping
-    @Deprecated
-    public ResponseEntity<ScrollResponse<UserSummaryApiRes>> search(@RequestParam String keyword) {
-        return null;
+    public ResponseEntity<ScrollResponse<UserSummary>> search(UserSearch request) {
+        ScrollResponse<UserSummary> response = userService.search(request);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}/profile")

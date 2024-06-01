@@ -1,15 +1,14 @@
 package wtwt.common.dto.response;
 
 import java.util.List;
+import lombok.Builder;
 
+@Builder
 public record ScrollResponse<T>(
-    boolean isEmpty,
     List<T> contents,
-    String nextCursor
+    boolean isEmpty,
+    String nextCursor,
+    int scrollSize
 ) {
-
-    public static <T> ScrollResponse<T> from(List<T> contents, String nextCursor) {
-        return new ScrollResponse<T>(contents.isEmpty(), contents, nextCursor);
-    }
 
 }

@@ -6,10 +6,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import wtwt.common.dto.response.ScrollResponse;
+import wtwt.domain.auth.application.dto.response.UserSummary;
 import wtwt.domain.user.application.dto.request.SignUpReq;
 import wtwt.domain.user.application.dto.request.UpdateUserReq;
 import wtwt.domain.user.infrastructure.UserRepository;
 import wtwt.domain.user.model.User;
+import wtwt.domain.user.presentation.UserSearch;
 
 @Service
 @Transactional(readOnly = true)
@@ -55,5 +58,9 @@ public class UserService {
         user.setBirthDate(request.birthDate());
         user.setGender(request.gender());
 
+    }
+
+    public ScrollResponse<UserSummary> search(UserSearch request) {
+        return userRepository.search(request);
     }
 }
