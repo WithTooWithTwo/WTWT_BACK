@@ -22,7 +22,6 @@ public class PostTag {
     @Column(name = "post_tag_id")
     private Long id;
 
-
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)

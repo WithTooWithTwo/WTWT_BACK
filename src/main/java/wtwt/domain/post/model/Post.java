@@ -2,6 +2,8 @@ package wtwt.domain.post.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -40,6 +42,7 @@ public class Post extends BaseTimeEntity {
     private String content;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private PostStatus status = PostStatus.DRAFT;
 
     @Column(name = "is_lightning")

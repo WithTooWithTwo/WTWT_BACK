@@ -2,6 +2,8 @@ package wtwt.domain.trip.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import wtwt.domain.user.model.enums.Gender;
 
 @Embeddable
@@ -14,5 +16,9 @@ public class Preference {
     private Integer maxAge;
 
     @Column(name = "prefer_gender")
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @Column(name = "capacity")
+    private Integer capacity;
 }

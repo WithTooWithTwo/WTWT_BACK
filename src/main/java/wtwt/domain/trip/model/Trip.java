@@ -29,9 +29,6 @@ public class Trip {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @Column(name = "capacity")
-    private Integer capacity;
-
     @OneToMany(mappedBy = "trip")
     private List<Member> members;
 
