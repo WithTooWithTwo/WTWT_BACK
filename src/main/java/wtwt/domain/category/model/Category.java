@@ -1,5 +1,8 @@
 package wtwt.domain.category.model;
 
+import static wtwt.common.util.ValidationUtils.validateNotBlank;
+import static wtwt.common.util.ValidationUtils.validateNotNull;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -33,15 +36,25 @@ public class Category extends BaseTimeEntity {
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "level", nullable = false, length = 20, columnDefinition = "VARCHAR(20)")
     private CategoryType level;
 
     @Builder
     private Category(String name, Category parent, CategoryType level) {
+        validateNotBlank(name, "카테고리명은 필수입니다.");
+        validateNotNull(level, "카테고리 레벨은 필수입니다.");
+        validateParent(parent.level, level);
+
         this.name = name;
         this.parent = parent;
         this.level = level;
+    }
+
+    private void validateParent(CategoryType parent, CategoryType level) {
+        if (!parent.isParentOf(level)) {
+            validateNotNull(parent, "올바르지 않은 계층 구조입니다.");
+        }
     }
 }

@@ -1,5 +1,7 @@
 package wtwt.common.util;
 
+import static io.micrometer.common.util.StringUtils.isNotBlank;
+
 import java.util.regex.Pattern;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,18 @@ public final class ValidationUtils {
 
     public static void validatePassword(String input, String message) {
         pattern(input, PASSWORD_PATTERN, message);
+    }
+
+    public static void validateMaxLength(String input, int maxLength, String message) {
+        Assert.isTrue(input.length() <= maxLength, message);
+    }
+
+    public static void validateNotBlank(String input, String message) {
+        Assert.isTrue(isNotBlank(input), message);
+    }
+
+    public static void validateNotNull(Object input, String message) {
+        Assert.notNull(input, message);
     }
 
     private static void pattern(String input, Pattern pattern, String message) {

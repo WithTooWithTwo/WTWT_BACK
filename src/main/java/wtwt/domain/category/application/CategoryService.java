@@ -25,7 +25,7 @@ public class CategoryService {
             .level(request.type());
 
         request.parentId().ifPresent(parentId -> {
-            Category parent = getParent(parentId, request.type());
+            Category parent = getCategory(parentId, "상위 카테고리가 존재하지 않습니다.");
             categoryBuilder.parent(parent);
         });
 
@@ -43,19 +43,9 @@ public class CategoryService {
             .toList();
     }
 
-    private Category getParent(Long parentId, CategoryType type) {
-        Category parent = getCategory(parentId, "상위 카테고리가 존재하지 않습니다.");
-
-        if (type.getParentType() != parent.getLevel()) {
-            throw new IllegalArgumentException("상위 카테고리 타입이 올바르지 않습니다.");
-        }
-
-        return parent;
-    }
-
     private List<CategorySummary> findAllByType(CategoryType type) {
-        List<Category> categories = categoryRepository.findAllByLevel(type);
-        return categories.stream()
+        return categoryRepository.findAllByLevel(type)
+            .stream()
             .map(CategorySummary::from)
             .toList();
     }

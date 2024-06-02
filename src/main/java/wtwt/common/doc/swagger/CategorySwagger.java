@@ -13,7 +13,6 @@ import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import wtwt.common.dto.response.IdResponse;
-import wtwt.domain.auth.presentation.dto.response.LoginApiRes;
 import wtwt.domain.category.dto.CategorySummary;
 import wtwt.domain.category.presentation.dto.request.CreateCategoryApiReq;
 
@@ -23,7 +22,7 @@ public interface CategorySwagger {
     @Operation(summary = "카테고리 생성", description = "카테고리를 생성 할 때 사용하는 API")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "카테고리 생성 성공",
-            content = @Content(schema = @Schema(implementation = LoginApiRes.class)))
+            content = @Content(schema = @Schema(implementation = IdResponse.class)))
     })
     ResponseEntity<IdResponse> create(CreateCategoryApiReq request);
 
@@ -37,7 +36,7 @@ public interface CategorySwagger {
     })
     ResponseEntity<List<CategorySummary>> findMainCategories();
 
-    @Operation(summary = "카테고리 조회", description = "부모 카테고리의 하위 카테고리를 조회 할 때 사용하는 API")
+    @Operation(summary = "카테고리 조회", description = "상위 카테고리의 하위 카테고리를 조회 할 때 사용하는 API")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "카테고리 조회 성공",
             content = @Content(
