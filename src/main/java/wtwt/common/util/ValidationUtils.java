@@ -2,6 +2,7 @@ package wtwt.common.util;
 
 import static io.micrometer.common.util.StringUtils.isNotBlank;
 
+import java.util.List;
 import java.util.regex.Pattern;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,10 @@ public final class ValidationUtils {
 
     public static void validateNotNull(Object input, String message) {
         Assert.notNull(input, message);
+    }
+
+    public static void validateMaxListSize(List list, int maxSize, String message) {
+        Assert.isTrue(list.size() <= maxSize, message);
     }
 
     private static void pattern(String input, Pattern pattern, String message) {

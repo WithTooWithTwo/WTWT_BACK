@@ -1,5 +1,7 @@
 package wtwt.domain.file.application;
 
+import static wtwt.common.util.ValidationUtils.validateMaxListSize;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -48,6 +50,8 @@ public class S3Service implements FileService {
 
     @Override
     public List<File> upload(List<MultipartFile> images) {
+        validateMaxListSize(images, 10, "이미지는 한번에 최대 10장까지 업로드 가능합니다.");
+
         return images.stream()
             .map(this::upload)
             .toList();
