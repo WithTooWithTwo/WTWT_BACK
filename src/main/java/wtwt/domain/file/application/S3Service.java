@@ -1,6 +1,7 @@
 package wtwt.domain.file.application;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -28,21 +29,28 @@ public class S3Service implements FileService {
         validate(file, multipartProperties.getMaxFileSize());
         String fileName = createUniqueFileName(file);
 
-        try {
-            PutObjectRequest putOb = PutObjectRequest.builder()
-                .bucket(s3Properties.baseBucket())
-                .key(s3Properties.keyPrefix() + "/" + fileName)
-                .build();
+        PutObjectRequest putOb = PutObjectRequest.builder()
+            .bucket(s3Properties.baseBucket())
+            .key(s3Properties.keyPrefix() + "/" + fileName)
+            .build();
 
+        try {
             s3Client.putObject(putOb,
                 RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
         } catch (IOException e) {
-            throw new IllegalStateException("파일을 읽는 도중 예외가 발생했습니다.");
+            throw new IllegalStateException("파일을 쓰는 도중 예외가 발생했습니다.");
         }
 
         return File.builder()
             .url(s3Properties.basePath() + "/" + s3Properties.keyPrefix() + "/" + fileName)
             .build();
+    }
+
+    @Override
+    public List<File> upload(List<MultipartFile> images) {
+        return images.stream()
+            .map(this::upload)
+            .toList();
     }
 
     private String createUniqueFileName(MultipartFile file) {
