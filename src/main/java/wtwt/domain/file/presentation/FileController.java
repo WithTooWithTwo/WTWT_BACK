@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import wtwt.common.doc.swagger.FileSwagger;
-import wtwt.domain.auth.presentation.dto.response.FileResponse;
 import wtwt.domain.file.application.FileService;
+import wtwt.domain.file.presentation.dto.response.FileApiResponse;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -23,18 +23,18 @@ public class FileController implements FileSwagger {
     @PostMapping(
         value = "/file",
         consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<FileResponse> uploadFile(@RequestPart MultipartFile file
+    public ResponseEntity<FileApiResponse> uploadFile(@RequestPart MultipartFile file
     ) {
         return ResponseEntity.ok()
-            .body(FileResponse.from(fileService.upload(file)));
+            .body(FileApiResponse.from(fileService.upload(file)));
     }
 
     @PostMapping(value = "/files",
         consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<List<FileResponse>> uploadFiles(@RequestPart List<MultipartFile> files
+    public ResponseEntity<List<FileApiResponse>> uploadFiles(@RequestPart List<MultipartFile> files
     ) {
-        List<FileResponse> response = fileService.upload(files).stream()
-            .map(FileResponse::from)
+        List<FileApiResponse> response = fileService.upload(files).stream()
+            .map(FileApiResponse::from)
             .toList();
 
         return ResponseEntity.ok()
