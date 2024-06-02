@@ -11,6 +11,7 @@ import wtwt.domain.auth.presentation.dto.request.LoginApiReq;
 import wtwt.domain.auth.presentation.dto.request.ReissueTokenApiReq;
 import wtwt.domain.auth.presentation.dto.response.LoginApiRes;
 import wtwt.domain.auth.presentation.dto.response.UserSummaryApiRes;
+import wtwt.exception.dto.ErrorResponse;
 
 @Tag(name = "Auth", description = "인증/인가 관련 API")
 public interface AuthSwagger {
@@ -20,7 +21,7 @@ public interface AuthSwagger {
         @ApiResponse(responseCode = "200", description = "로그인 성공",
             content = @Content(schema = @Schema(implementation = LoginApiRes.class))),
         @ApiResponse(responseCode = "302", description = "닉네임 설정 필요",
-            content = @Content(schema = @Schema(implementation = LoginApiRes.class)))
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     ResponseEntity<LoginApiRes> login(LoginApiReq request);
 
