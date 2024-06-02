@@ -1,0 +1,2 @@
+ALTER TABLE post
+    ADD COLUMN category_id BIGINT NULL;

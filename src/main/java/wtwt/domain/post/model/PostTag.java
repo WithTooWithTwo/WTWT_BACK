@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wtwt.common.base.BaseTimeEntity;
@@ -30,4 +31,10 @@ public class PostTag extends BaseTimeEntity {
     @JoinColumn(name = "post_id", nullable = false)
     @Getter(AccessLevel.NONE)
     private Post post;
+
+    @Builder
+    public PostTag(String name, Post post) {
+        this.name = name;
+        this.post = post;
+    }
 }
