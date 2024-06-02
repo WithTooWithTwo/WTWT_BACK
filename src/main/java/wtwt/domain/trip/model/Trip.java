@@ -44,6 +44,8 @@ public class Trip extends BaseTimeEntity {
     @Builder
     public Trip(LocalDate startDate, LocalDate endDate, List<User> users, Integer preferMinAge,
         Integer preferMaxAge, Gender preferGender, Integer preferCapacity) {
+        validateDate(startDate, endDate);
+
         this.startDate = startDate;
         this.endDate = endDate;
         this.members = toMembers(users);
@@ -53,6 +55,12 @@ public class Trip extends BaseTimeEntity {
             .gender(preferGender)
             .capacity(preferCapacity)
             .build();
+    }
+
+    private void validateDate(LocalDate startDate, LocalDate endDate) {
+        if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("여행 시작 날짜는 여행 종료 날짜보다 이전이어야 합니다.");
+        }
     }
 
     private List<Member> toMembers(List<User> users) {
