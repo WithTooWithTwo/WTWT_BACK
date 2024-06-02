@@ -33,8 +33,7 @@ public class Category extends BaseTimeEntity {
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;
-
-
+    
     @Enumerated(EnumType.STRING)
     @Column(name = "level", nullable = false, length = 20, columnDefinition = "VARCHAR(20)")
     private CategoryType level;
