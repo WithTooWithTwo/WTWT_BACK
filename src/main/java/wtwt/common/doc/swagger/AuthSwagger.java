@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import wtwt.domain.auth.presentation.dto.request.LoginApiReq;
 import wtwt.domain.auth.presentation.dto.request.ReissueTokenApiReq;
 import wtwt.domain.auth.presentation.dto.response.LoginApiRes;
-import wtwt.domain.auth.presentation.dto.response.UserSummaryApiRes;
+import wtwt.domain.user.presentation.dto.response.UserSummaryApiRes;
 import wtwt.exception.dto.ErrorResponse;
 
 @Tag(name = "Auth", description = "인증/인가 관련 API")

@@ -3,6 +3,7 @@ package wtwt.domain.auth.presentation.dto.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import wtwt.domain.auth.application.dto.response.TokensAndUserSummaryRes;
+import wtwt.domain.user.presentation.dto.response.UserSummaryApiRes;
 
 @Builder
 @Schema(description = "로그인 응답")
