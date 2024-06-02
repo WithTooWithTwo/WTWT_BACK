@@ -1,5 +1,6 @@
 package wtwt.common.dto.response;
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.Builder;
@@ -7,7 +8,9 @@ import lombok.Builder;
 @Builder
 @Schema(description = "스크롤 응답")
 public record ScrollResponse<T>(
-    @Schema(description = "내용", example = "[]")
+    @ArraySchema(
+        schema = @Schema(description = "응답 데이터")
+    )
     List<T> contents,
     @Schema(description = "응답 데이터가 비어있는지 여부", example = "true")
     boolean isEmpty,

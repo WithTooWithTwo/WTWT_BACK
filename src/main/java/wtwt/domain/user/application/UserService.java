@@ -48,7 +48,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUser(Long id, UpdateUserReq request) {
+    public Long updateUser(Long id, UpdateUserReq request) {
         User user = userRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("해당 ID의 사용자가 존재하지 않습니다."));
 
@@ -57,7 +57,8 @@ public class UserService {
         user.setStatusMessage(request.statusMessage());
         user.setBirthDate(request.birthDate());
         user.setGender(request.gender());
-
+        
+        return user.getId();
     }
 
     public ScrollResponse<UserSummary> search(UserSearch request) {

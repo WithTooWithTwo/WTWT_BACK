@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import wtwt.common.doc.swagger.UserSwagger;
+import wtwt.common.dto.response.IdResponse;
 import wtwt.common.dto.response.ScrollResponse;
 import wtwt.domain.auth.application.dto.response.UserSummary;
 import wtwt.domain.user.application.UserService;
@@ -33,7 +34,7 @@ public class UserController implements UserSwagger {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<Void> signup(@RequestBody @Valid SignUpApiReq request) {
+    public ResponseEntity<IdResponse> signup(@RequestBody @Valid SignUpApiReq request) {
         Long id = userService.signUp(request.toSignUpReq());
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
             .path("/users/{id}")
@@ -41,7 +42,7 @@ public class UserController implements UserSwagger {
             .toUri();
 
         return ResponseEntity.created(uri)
-            .build();
+            .body(IdResponse.from(id));
     }
 
     @PostMapping("/email/check")
@@ -65,13 +66,12 @@ public class UserController implements UserSwagger {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUser(
+    public ResponseEntity<IdResponse> updateUser(
         @PathVariable Long id,
         @RequestBody @Valid UpdateUserApiReq request
     ) {
-        userService.updateUser(id, request.toUpdateUserReq());
-        return ResponseEntity.noContent()
-            .build();
+        Long userId = userService.updateUser(id, request.toUpdateUserReq());
+        return ResponseEntity.ok().body(IdResponse.from(userId));
     }
 
     @GetMapping

@@ -1,8 +1,6 @@
 package wtwt.common.doc.swagger;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,21 +19,21 @@ public interface PostSwagger {
     @Operation(summary = "게시물 생성", description = "게시물을 생성 할 때 사용하는 API")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "게시물 생성 성공",
-            content = @Content(schema = @Schema(contentSchema = IdResponse.class)))
+            useReturnTypeSchema = true)
     })
     ResponseEntity<IdResponse> create(Long loginId, CreatePostApiReq request);
 
     @Operation(summary = "게시물 조회/검색", description = "게시물을 조회/검색 할 때 사용하는 API")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "게시물 조회/검색 성공",
-            content = @Content(schema = @Schema(contentSchema = ScrollResponse.class)))
+            useReturnTypeSchema = true)
     })
     ResponseEntity<ScrollResponse<PostSummary>> getPosts(PostSearch request);
 
     @Operation(summary = "단일 게시물 조회", description = "특정 게시물을 조회 할 때 사용하는 API")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "게시물 조회 성공",
-            content = @Content(schema = @Schema(contentSchema = PostDetailResponse.class)))
+            useReturnTypeSchema = true)
     })
     ResponseEntity<PostDetailResponse> getPost();
 

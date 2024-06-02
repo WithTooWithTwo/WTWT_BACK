@@ -19,7 +19,7 @@ public interface AuthSwagger {
     @Operation(summary = "기본(이메일/비밀번호) 로그인", description = "로그인 할 때 사용하는 API")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "로그인 성공",
-            content = @Content(schema = @Schema(implementation = LoginApiRes.class))),
+            useReturnTypeSchema = true),
         @ApiResponse(responseCode = "302", description = "닉네임 설정 필요",
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
