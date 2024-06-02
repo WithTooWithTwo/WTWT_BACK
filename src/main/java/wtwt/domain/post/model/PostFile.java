@@ -20,14 +20,15 @@ public class PostFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_file_id")
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "post_id", nullable = false)
     @Getter(AccessLevel.NONE)
     private Post post;
 
+    @Column(name = "url", nullable = false, length = 1024)
     private String url;
 
     //== 생성 메서드 ==//

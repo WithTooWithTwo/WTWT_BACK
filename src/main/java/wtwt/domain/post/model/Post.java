@@ -32,20 +32,20 @@ public class Post extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User writer;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false, length = 100)
     private String title;
 
-    @Column(name = "content")
+    @Column(name = "content", nullable = false, length = 3000)
     private String content;
 
-    @Column(name = "status")
     @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20, columnDefinition = "VARCHAR")
     private PostStatus status = PostStatus.DRAFT;
 
-    @Column(name = "is_lightning")
+    @Column(name = "is_lightning", nullable = false, columnDefinition = "TINYINT")
     private boolean isLightning = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -58,7 +58,7 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post")
     private List<PostTag> tags = new ArrayList<>();
 
-    @Column(name = "hits")
+    @Column(name = "hits", nullable = false)
     private int hits = 0;
 
     //== 생성 메서드 ==//

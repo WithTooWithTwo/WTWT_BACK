@@ -1,0 +1,24 @@
+-- TRIP
+CREATE TABLE IF NOT EXISTS trip
+(
+    id             BIGINT PRIMARY KEY AUTO_INCREMENT,
+    start_date     DATE        NULL,
+    end_date       DATE        NULL,
+    prefer_min_age INTEGER     NULL,
+    prefer_max_age INTEGER     NULL,
+    prefer_gender  VARCHAR(10) NULL,
+    capacity       INTEGER     NULL,
+    created_at     TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at     TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- TRIP_USER
+CREATE TABLE IF NOT EXISTS trip_user
+(
+    id         BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id    BIGINT    NOT NULL,
+    trip_id    BIGINT    NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+

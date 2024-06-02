@@ -15,7 +15,7 @@ public class Preference {
     @Column(name = "prefer_max_age")
     private Integer maxAge;
 
-    @Column(name = "prefer_gender")
+    @Column(name = "prefer_gender", length = 10, columnDefinition = "VARCHAR")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
