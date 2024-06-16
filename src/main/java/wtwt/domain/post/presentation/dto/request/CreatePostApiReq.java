@@ -11,12 +11,15 @@ import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.format.annotation.DateTimeFormat;
 import wtwt.domain.post.application.dto.request.CreatePostReq;
 import wtwt.domain.trip.model.enums.PreferGender;
 
 @Schema(description = "게시물 생성 요청")
 public record CreatePostApiReq(
+    @Schema(description = "임시저장 게시물 식별자", example = "1", nullable = true)
+    Long draftId,
     @NotNull
     @Schema(description = "카테고리 식별자", example = "3")
     Long categoryId,
@@ -58,6 +61,7 @@ public record CreatePostApiReq(
 
     public CreatePostReq toCreatePostReq(Long loginId) {
         return CreatePostReq.builder()
+            .draftId(Optional.ofNullable(draftId))
             .loginUserId(loginId)
             .categoryId(categoryId())
             .isLightning(isLightning())

@@ -2,11 +2,13 @@ package wtwt.domain.post.application.dto.request;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import lombok.Builder;
 import wtwt.domain.trip.model.enums.PreferGender;
 
 @Builder
 public record CreatePostReq(
+    Optional<Long> draftId,
     Long loginUserId,
     Long categoryId,
     Boolean isLightning,

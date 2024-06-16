@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wtwt.domain.category.infrastructure.CategoryRepository;
 import wtwt.domain.category.model.Category;
+import wtwt.domain.draft.infrastructure.DraftRepository;
 import wtwt.domain.post.application.dto.request.CreatePostReq;
 import wtwt.domain.post.infrastructure.PostRepository;
 import wtwt.domain.post.model.Post;
@@ -21,32 +22,18 @@ import wtwt.domain.user.model.User;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final DraftRepository draftRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final TripRepository tripRepository;
 
     @Transactional
     public Long create(CreatePostReq request) {
+        request.draftId().ifPresent(draftRepository::deleteById);
         Trip trip = createTripByPost(request);
         Post post = createPostWithTrip(request, tripRepository.save(trip));
         return postRepository.save(post)
             .getId();
-    }
-
-    public Long save(Long id, CreatePostReq createPostReq) {
-        return null;
-    }
-
-    public Long createAndSave(CreatePostReq createPostReq) {
-        return null;
-    }
-
-    public Long publish(Long id, CreatePostReq createPostReq) {
-        return null;
-    }
-
-    public Long createAndPublish(CreatePostReq createPostReq) {
-        return null;
     }
 
     private Post createPostWithTrip(CreatePostReq request, Trip trip) {
