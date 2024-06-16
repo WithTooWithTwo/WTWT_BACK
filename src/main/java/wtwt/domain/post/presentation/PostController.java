@@ -5,6 +5,7 @@ import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +28,49 @@ public class PostController implements PostSwagger {
 
     private final PostService postService;
 
-    @PostMapping
-    public ResponseEntity<IdResponse> create(@Login Long loginId,
-        @RequestBody @Valid CreatePostApiReq request) {
-        Long postId = postService.create(request.toCreatePostReq(loginId));
+    @PostMapping("/{id}/save")
+    public ResponseEntity<IdResponse> save(
+        @Login Long loginId,
+        @PathVariable Long id,
+        @RequestBody @Valid CreatePostApiReq request
+    ) {
+        Long postId = postService.save(id, request.toCreatePostReq(loginId));
+        return ResponseEntity.ok()
+            .body(new IdResponse(postId));
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<IdResponse> createAndSave(
+        @Login Long loginId,
+        @RequestBody @Valid CreatePostApiReq request
+    ) {
+        Long postId = postService.createAndSave(request.toCreatePostReq(loginId));
+        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
+            .path("/posts/{id}")
+            .buildAndExpand(postId)
+            .toUri();
+
+        return ResponseEntity.created(uri)
+            .body(new IdResponse(postId));
+    }
+
+    @PostMapping("/{id}/publish")
+    public ResponseEntity<IdResponse> publish(
+        @Login Long loginId,
+        @PathVariable Long id,
+        @RequestBody @Valid CreatePostApiReq request
+    ) {
+        Long postId = postService.publish(id, request.toCreatePostReq(loginId));
+        return ResponseEntity.ok()
+            .body(new IdResponse(postId));
+    }
+
+    @PostMapping("/publish")
+    public ResponseEntity<IdResponse> createAndPublish(
+        @Login Long loginId,
+        @RequestBody @Valid CreatePostApiReq request
+    ) {
+        Long postId = postService.createAndPublish(request.toCreatePostReq(loginId));
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
             .path("/posts/{id}")
             .buildAndExpand(postId)

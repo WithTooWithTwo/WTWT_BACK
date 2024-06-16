@@ -33,6 +33,22 @@ public class PostService {
             .getId();
     }
 
+    public Long save(Long id, CreatePostReq createPostReq) {
+        return null;
+    }
+
+    public Long createAndSave(CreatePostReq createPostReq) {
+        return null;
+    }
+
+    public Long publish(Long id, CreatePostReq createPostReq) {
+        return null;
+    }
+
+    public Long createAndPublish(CreatePostReq createPostReq) {
+        return null;
+    }
+
     private Post createPostWithTrip(CreatePostReq request, Trip trip) {
         return Post.builder()
             .category(getCategoryOrElseThrow(request.categoryId(), "해당 ID의 카테고리가 존재하지 않습니다."))
