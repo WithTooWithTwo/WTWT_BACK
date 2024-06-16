@@ -1,11 +1,17 @@
 package wtwt.domain.user.model.enums;
 
+import static java.util.Objects.isNull;
+
 import java.util.Arrays;
 
 public enum Gender {
     MALE, FEMALE, HIDE;
 
     public static Gender from(String gender) {
+        if (isNull(gender)) {
+            return HIDE;
+        }
+        
         return Arrays.stream(Gender.values())
             .filter(genderType -> genderType.name().equals(gender.toUpperCase()))
             .findFirst()
