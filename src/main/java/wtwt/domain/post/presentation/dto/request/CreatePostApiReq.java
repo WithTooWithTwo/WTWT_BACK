@@ -13,8 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 import wtwt.domain.post.application.dto.request.CreatePostReq;
-import wtwt.domain.post.model.enums.PostStatus;
-import wtwt.domain.user.model.enums.Gender;
+import wtwt.domain.trip.model.enums.PreferGender;
 
 @Schema(description = "게시물 생성 요청")
 public record CreatePostApiReq(
@@ -69,7 +68,7 @@ public record CreatePostApiReq(
             .endDate(endDate())
             .groupSize(groupSize())
             .members(members())
-            .preferGender(Gender.from(preferGender()))
+            .preferGender(PreferGender.from(preferGender()))
             .preferMinAge(preferMinAge())
             .preferMaxAge(preferMaxAge())
             .tags(isNull(tags()) ? List.of() : tags())

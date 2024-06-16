@@ -8,7 +8,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import wtwt.domain.user.model.enums.Gender;
+import wtwt.domain.trip.model.enums.PreferGender;
 
 @Embeddable
 @Builder
@@ -24,7 +24,7 @@ public class Preference {
 
     @Column(name = "prefer_gender", length = 10, columnDefinition = "VARCHAR")
     @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private PreferGender gender;
 
     @Column(name = "capacity")
     private Integer capacity;

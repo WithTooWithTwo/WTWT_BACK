@@ -3,8 +3,7 @@ package wtwt.domain.post.application.dto.request;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Builder;
-import wtwt.domain.post.model.enums.PostStatus;
-import wtwt.domain.user.model.enums.Gender;
+import wtwt.domain.trip.model.enums.PreferGender;
 
 @Builder
 public record CreatePostReq(
@@ -18,7 +17,7 @@ public record CreatePostReq(
     LocalDate endDate,
     Integer groupSize,
     List<Long> members,
-    Gender preferGender,
+    PreferGender preferGender,
     Integer preferMinAge,
     Integer preferMaxAge,
     List<String> tags

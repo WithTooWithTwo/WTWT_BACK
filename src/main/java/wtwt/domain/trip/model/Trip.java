@@ -16,8 +16,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wtwt.common.base.BaseTimeEntity;
+import wtwt.domain.trip.model.enums.PreferGender;
 import wtwt.domain.user.model.User;
-import wtwt.domain.user.model.enums.Gender;
 
 @Entity
 @Getter
@@ -43,7 +43,7 @@ public class Trip extends BaseTimeEntity {
 
     @Builder
     public Trip(LocalDate startDate, LocalDate endDate, List<User> users, Integer preferMinAge,
-        Integer preferMaxAge, Gender preferGender, Integer preferCapacity) {
+        Integer preferMaxAge, PreferGender preferGender, Integer preferCapacity) {
         validateDate(startDate, endDate);
 
         this.startDate = startDate;
