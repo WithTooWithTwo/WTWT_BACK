@@ -21,8 +21,7 @@ public record CreatePostReq(
     Gender preferGender,
     Integer preferMinAge,
     Integer preferMaxAge,
-    List<String> tags,
-    PostStatus status
+    List<String> tags
 ) {
 
 }

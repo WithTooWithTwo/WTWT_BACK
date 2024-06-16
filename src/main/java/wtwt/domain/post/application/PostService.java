@@ -55,7 +55,6 @@ public class PostService {
             .writer(getUserOrElseThrow(request.loginUserId(), "해당 ID의 유저가 존재하지 않습니다."))
             .title(request.title())
             .content(request.content())
-            .status(request.status())
             .isLightning(request.isLightning())
             .imageUrls(request.urls())
             .tagNames(request.tags())

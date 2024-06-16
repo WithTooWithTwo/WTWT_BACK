@@ -3,8 +3,6 @@ package wtwt.domain.post.model;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +18,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wtwt.common.base.BaseTimeEntity;
 import wtwt.domain.category.model.Category;
-import wtwt.domain.post.model.enums.PostStatus;
 import wtwt.domain.trip.model.Trip;
 import wtwt.domain.user.model.User;
 
@@ -48,10 +45,6 @@ public class Post extends BaseTimeEntity {
     @Column(name = "content", nullable = false, length = 3000)
     private String content;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, length = 20, columnDefinition = "VARCHAR")
-    private PostStatus status = PostStatus.DRAFT;
-
     @Column(name = "is_lightning", nullable = false, columnDefinition = "TINYINT")
     private boolean isLightning = false;
 
@@ -70,13 +63,12 @@ public class Post extends BaseTimeEntity {
 
     //== 생성 메서드 ==//
     @Builder
-    private Post(Category category, String title, String content, User writer, PostStatus status,
-        Boolean isLightning, Trip trip, List<String> imageUrls, List<String> tagNames) {
+    private Post(Category category, String title, String content, User writer, Boolean isLightning,
+        Trip trip, List<String> imageUrls, List<String> tagNames) {
         this.category = category;
         this.title = title;
         this.content = content;
         this.writer = writer;
-        this.status = status;
         this.isLightning = isLightning;
         this.trip = trip;
         this.images = imageUrls.stream()

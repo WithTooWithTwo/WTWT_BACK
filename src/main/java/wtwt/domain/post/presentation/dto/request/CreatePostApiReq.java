@@ -54,10 +54,7 @@ public record CreatePostApiReq(
     @Schema(description = "최대 나이", example = "29", nullable = true)
     Integer preferMaxAge,
     @Schema(description = "태그 리스트", example = "[\"애월\", \"루지\"]", nullable = true)
-    List<String> tags,
-    @NotBlank
-    @Schema(description = "게시물 상태", example = "PUBLISHED|DRAFT", nullable = true, defaultValue = "PUBLISHED")
-    String status
+    List<String> tags
 ) {
 
     public CreatePostReq toCreatePostReq(Long loginId) {
@@ -76,7 +73,6 @@ public record CreatePostApiReq(
             .preferMinAge(preferMinAge())
             .preferMaxAge(preferMaxAge())
             .tags(isNull(tags()) ? List.of() : tags())
-            .status(PostStatus.from(status()))
             .build();
     }
 }
